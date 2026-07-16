@@ -241,3 +241,75 @@ async function cerrarSesion() {
 }
 
 init();
+let mesCalendario = new Date();
+
+function cambiarMes(delta) {
+  mesCalendario.setMonth(mesCalendario.getMonth() + delta);
+  dibujarCalendario();
+}
+
+function dibujarCalendario() {
+  const nombresMes = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const nombresDia = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+  const hoy = new Date();
+
+  const anio = mesCalendario.getFullYear();
+  const mes = mesCalendario.getMonth();
+
+  document.getElementById('calendario-mes-label').textContent = `${nombresMes[mes]} ${anio}`;
+
+  const primerDia = new Date(anio, mes, 1);
+  let diaSemanaInicio = primerDia.getDay();
+  diaSemanaInicio = diaSemanaInicio === 0 ? 6 : diaSemanaInicio - 1;
+
+  const diasEnMes = new Date(anio, mes + 1, 0).getDate();
+  const diasMesAnterior = new Date(anio, mes, 0).getDate();
+
+  let celdas = nombresDia.map(d => `<div class="dia-nombre">${d}</div>`).join('');
+
+  for (let i = diaSemanaInicio; i > 0; i--) {
+    celdas += `<div class="dia-numero otro-mes">${diasMesAnterior - i + 1}</div>`;
+  }
+
+  for (let d = 1; d <= diasEnMes; d++) {
+    const esHoy = d === hoy.getDate() && mes === hoy.getMonth() && anio === hoy.getFullYear();
+    celdas += `<div class="dia-numero ${esHoy ? 'hoy' : ''}">${d}</div>`;
+  }
+
+  document.getElementById('calendario-grid').innerHTML = celdas;
+}
+
+async function cargarProximosEventos() {
+  const { data: inscripciones } = await supabase.from('inscripciones').select('seccion_id').eq('estudiante_id', usuarioActual.id);
+  const contenedor = document.getElementById('lista-proximos-eventos');
+
+  if (!inscripciones || inscripciones.length === 0) {
+    contenedor.innerHTML = '<p style="font-size:0.82rem; color:var(--plata);">No tienes eventos próximos.</p>';
+    return;
+  }
+
+  const ids = inscripciones.map(i => i.seccion_id);
+  const { data: tareas } = await supabase
+    .from('tareas')
+    .select('titulo, fecha_limite, secciones(nombre)')
+    .in('seccion_id', ids)
+    .not('fecha_limite', 'is', null)
+    .gte('fecha_limite', new Date().toISOString())
+    .order('fecha_limite')
+    .limit(4);
+
+  if (!tareas || tareas.length === 0) {
+    contenedor.innerHTML = '<p style="font-size:0.82rem; color:var(--plata);">No tienes eventos próximos.</p>';
+    return;
+  }
+
+  contenedor.innerHTML = tareas.map(t => `
+    <div class="evento-item">
+      <div class="evento-icono">📝</div>
+      <div>
+        <div class="evento-titulo">Entrega: ${t.titulo}</div>
+        <div class="evento-meta">${t.secciones.nombre} · ${new Date(t.fecha_limite).toLocaleDateString('es-HN', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'})}</div>
+      </div>
+    </div>
+  `).join('');
+}
