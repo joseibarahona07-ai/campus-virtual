@@ -10,14 +10,19 @@
   <link rel="stylesheet" href="css/estilos.css"/>
 </head>
 <body>
+
+<div class="topbar-institucional">
+  <div class="logo-izq">
+    <img src="img/logoo.jpeg" alt="PANB"/>
+    <div class="nombre-institucion">
+      Portal Académico Nimia Baquedano
+      <small>Formando futuro y conocimiento</small>
+    </div>
+  </div>
+</div>
+
 <div class="dashboard">
   <div class="sidebar">
-    <div class="sidebar-logo">
-      <img src="img/logoo.jpeg" alt="PANB"/>
-    </div>
-    <div class="sidebar-titulo">Portal Académico Nimia Baquedano</div>
-    <div class="sidebar-slogan">Formando futuro y conocimiento</div>
-    <hr class="sidebar-divisor"/>
     <div class="usuario-nombre" id="nombre-usuario">Cargando...</div>
     <div class="nav-item activo" onclick="mostrarSeccion('mis-clases')">📚 Mis Clases</div>
     <div class="nav-item" onclick="mostrarSeccion('tareas')">📝 Tareas</div>
@@ -64,18 +69,41 @@
         </div>
       </div>
 
-      <div class="tarjeta">
-        <h3>Inscribirse a una clase</h3>
-        <div style="display:flex; gap:10px; align-items:center;">
-          <input type="text" id="codigo-seccion" placeholder="Código de la clase (ej: MAT101)"
-            style="padding:11px 14px; border:1.5px solid #e4e9ef; border-radius:10px; font-size:0.95rem; width:260px;"/>
-          <button class="btn btn-celeste" onclick="inscribirse()">Inscribirse</button>
-        </div>
-        <p id="msg-inscripcion" style="margin-top:10px; font-size:0.85rem;"></p>
-      </div>
+      <div class="layout-con-panel">
+        <div class="columna-principal">
+          <div class="tarjeta">
+            <h3>Inscribirse a una clase</h3>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <input type="text" id="codigo-seccion" placeholder="Código de la clase (ej: MAT101)"
+                style="padding:11px 14px; border:1.5px solid #e4e9ef; border-radius:10px; font-size:0.95rem; width:260px;"/>
+              <button class="btn btn-celeste" onclick="inscribirse()">Inscribirse</button>
+            </div>
+            <p id="msg-inscripcion" style="margin-top:10px; font-size:0.85rem;"></p>
+          </div>
 
-      <h3 style="margin:24px 0 14px; color:var(--azul-marino);">Mis Clases</h3>
-      <div class="cursos-grid" id="lista-clases"></div>
+          <h3 style="margin:24px 0 14px; color:var(--azul-marino);">Mis Clases</h3>
+          <div class="cursos-grid" id="lista-clases"></div>
+        </div>
+
+        <div class="panel-derecho">
+          <div class="widget-calendario">
+            <h3>📅 Calendario académico</h3>
+            <div class="calendario-nav">
+              <button onclick="cambiarMes(-1)">‹</button>
+              <span id="calendario-mes-label">—</span>
+              <button onclick="cambiarMes(1)">›</button>
+            </div>
+            <div class="calendario-grid" id="calendario-grid"></div>
+          </div>
+
+          <div class="widget-eventos">
+            <h3>📌 Próximos eventos</h3>
+            <div id="lista-proximos-eventos">
+              <p style="font-size:0.82rem; color:var(--plata);">Cargando...</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Tareas -->
@@ -97,6 +125,10 @@
     </div>
 
   </div>
+</div>
+
+<div class="footer-institucional">
+  Formando futuro y conocimiento — Portal Académico Nimia Baquedano
 </div>
 
 <!-- Modal para entregar tarea -->
