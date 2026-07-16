@@ -112,3 +112,54 @@ th { background: #f7f8fa; font-weight: 600; color: #555; }
   cursor: pointer; text-align: center; font-size: 0.9rem;
 }
 .cerrar-sesion:hover { background: rgba(255,255,255,0.2); }
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 12px;
+  }
+
+  .sidebar .usuario-nombre {
+    width: 100%;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+
+  .nav-item {
+    padding: 8px 10px;
+    font-size: 0.82rem;
+    margin-bottom: 0;
+  }
+
+  .cerrar-sesion {
+    margin-top: 0;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+  }
+
+  .contenido-principal {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  .login-container {
+    margin: 16px;
+    padding: 24px;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+
+  th, td {
+    padding: 7px 8px;
+  }
+
+  .dashboard {
+    flex-direction: column;
+  }
+}
