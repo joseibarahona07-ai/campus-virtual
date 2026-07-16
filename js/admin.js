@@ -9,7 +9,7 @@ async function init() {
   if (!perfil || perfil.rol !== 'admin') { window.location.href = 'index.html'; return; }
 
   usuarioActual = perfil;
-  document.getElementById('nombre-usuario').textContent = perfil.nombre;
+document.getElementById('titulo-bienvenida').textContent = `Panel de Administración — ${perfil.nombre.split(' ')[0]} 👋`;
   cargarResumen();
 }
 
