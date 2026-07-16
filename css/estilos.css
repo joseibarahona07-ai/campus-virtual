@@ -342,11 +342,32 @@ tr:hover td { background: #fafbfc; }
   .sidebar .usuario-nombre { width: 100%; margin-bottom: 6px; font-size: 0.85rem; padding-bottom: 8px; }
   .nav-item { padding: 8px 12px; font-size: 0.78rem; margin-bottom: 0; }
   .cerrar-sesion { margin-top: 0; padding: 8px 14px; font-size: 0.78rem; }
-  .contenido-principal { margin-left: 0; padding: 18px; }
+  .contenido-principal { margin-left: 0; padding: 16px; }
   .login-container { margin: 14px; padding: 28px; }
   table { font-size: 0.78rem; }
   th, td { padding: 8px 10px; }
   .dashboard { flex-direction: column; }
-  .stats-grid { grid-template-columns: repeat(2,1fr); }
   .footer-institucional { margin-left: 0; }
+
+  /* Barra de bienvenida y buscador */
+  .topbar-bienvenida { flex-direction: column; align-items: stretch; }
+  .buscador-top { width: 100%; min-width: 0; }
+
+  /* Tarjetas de estadísticas: una por fila en pantallas muy chicas */
+  .stats-grid { grid-template-columns: 1fr; gap: 12px; }
+
+  /* Tarjetas de cursos: una por fila */
+  .cursos-grid { grid-template-columns: 1fr; }
+
+  /* Panel derecho ya se apila con @media 900px, pero forzamos ancho completo */
+  .panel-derecho { width: 100%; }
+
+  /* Inscribirse a una clase: que el botón no se corte */
+  .tarjeta > div[style*="display:flex"] {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+  .tarjeta input[id="codigo-seccion"] {
+    width: 100% !important;
+  }
 }
