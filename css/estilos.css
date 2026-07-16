@@ -1,118 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700;800&display=swap');
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f0f2f5;
-  color: #333;
+  font-family: 'League Spartan', 'Segoe UI', sans-serif;
+  background: #f9fbfa;
+  color: #173559;
 }
 
+/* ===== LOGIN ===== */
 .pagina-login {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a3c6e, #2d6cb4);
+  background: linear-gradient(135deg, #173559, #2a5080);
 }
 
 .login-container {
-  background: white;
+  background: #f9fbfa;
   padding: 40px;
-  border-radius: 12px;
+  border-radius: 16px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  box-shadow: 0 12px 40px rgba(23,53,89,0.25);
 }
 
 .login-logo { text-align: center; margin-bottom: 28px; }
-.login-logo h1 { font-size: 1.8rem; color: #1a3c6e; }
-.login-logo p { color: #888; font-size: 0.9rem; margin-top: 4px; }
+.login-logo img { width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; }
+.login-logo h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #173559;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+}
+.login-logo .siglas {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #6d7988;
+  margin-top: 2px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.login-logo .slogan {
+  font-size: 0.82rem;
+  color: #6d7988;
+  margin-top: 6px;
+  font-style: italic;
+  font-weight: 400;
+}
 
-.tabs { display: flex; margin-bottom: 24px; border-bottom: 2px solid #eee; }
+.tabs { display: flex; margin-bottom: 24px; border-bottom: 2px solid #e2e8f0; }
 .tab {
   flex: 1; padding: 10px; background: none; border: none;
-  cursor: pointer; font-size: 0.95rem; color: #888;
+  cursor: pointer; font-size: 0.95rem; color: #6d7988;
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 500;
   transition: all 0.2s;
 }
-.tab.activo { color: #1a3c6e; border-bottom: 2px solid #1a3c6e; font-weight: 600; }
+.tab.activo {
+  color: #173559;
+  border-bottom: 2px solid #173559;
+  font-weight: 700;
+}
 
 .campo { margin-bottom: 16px; }
-.campo label { display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #555; }
+.campo label {
+  display: block; margin-bottom: 6px;
+  font-size: 0.82rem; font-weight: 600;
+  color: #6d7988; text-transform: uppercase; letter-spacing: 0.5px;
+}
 .campo input, .campo select {
-  width: 100%; padding: 10px 14px;
-  border: 1px solid #ddd; border-radius: 8px;
-  font-size: 0.95rem; transition: border 0.2s;
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid #dde3ea; border-radius: 8px;
+  font-size: 0.95rem; font-family: 'League Spartan', sans-serif;
+  background: white; color: #173559;
+  transition: border 0.2s;
 }
 .campo input:focus, .campo select:focus {
-  outline: none; border-color: #2d6cb4;
+  outline: none; border-color: #173559;
+  box-shadow: 0 0 0 3px rgba(23,53,89,0.08);
 }
 
 .btn-principal {
-  width: 100%; padding: 12px;
-  background: #1a3c6e; color: white;
+  width: 100%; padding: 13px;
+  background: #173559; color: #f9fbfa;
   border: none; border-radius: 8px;
-  font-size: 1rem; cursor: pointer;
+  font-size: 1rem; font-weight: 700;
+  font-family: 'League Spartan', sans-serif;
+  cursor: pointer; letter-spacing: 0.3px;
   transition: background 0.2s; margin-top: 8px;
 }
-.btn-principal:hover { background: #2d6cb4; }
+.btn-principal:hover { background: #1f4473; }
 
-.mensaje-error { color: #e53e3e; font-size: 0.85rem; margin-top: 10px; text-align: center; }
-.mensaje-exito { color: #38a169; font-size: 0.85rem; margin-top: 10px; text-align: center; }
+.mensaje-error { color: #c0392b; font-size: 0.85rem; margin-top: 10px; text-align: center; }
+.mensaje-exito { color: #27ae60; font-size: 0.85rem; margin-top: 10px; text-align: center; }
 
-/* Dashboard general */
+/* ===== DASHBOARD ===== */
 .dashboard { display: flex; min-height: 100vh; }
 
 .sidebar {
-  width: 240px; background: #1a3c6e; color: white;
+  width: 250px; background: #173559; color: #f9fbfa;
   padding: 24px 16px; display: flex; flex-direction: column;
   position: fixed; height: 100vh; overflow-y: auto;
 }
-.sidebar h2 { font-size: 1rem; margin-bottom: 8px; opacity: 0.8; }
-.sidebar .usuario-nombre { font-size: 1.1rem; font-weight: 700; margin-bottom: 32px; }
+
+.sidebar-logo { text-align: center; margin-bottom: 14px; }
+.sidebar-logo img { width: 52px; height: 52px; object-fit: contain; }
+
+.sidebar-titulo {
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #f9fbfa;
+  margin-bottom: 4px;
+  letter-spacing: 0.2px;
+}
+
+.sidebar-slogan {
+  text-align: center;
+  font-size: 0.7rem;
+  color: rgba(249,251,250,0.55);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.sidebar-divisor {
+  border: none;
+  border-top: 1px solid rgba(249,251,250,0.15);
+  margin-bottom: 16px;
+}
+
+.sidebar .usuario-nombre {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+  color: rgba(249,251,250,0.9);
+}
 
 .nav-item {
-  padding: 12px 16px; border-radius: 8px;
-  cursor: pointer; margin-bottom: 4px;
-  transition: background 0.2s; font-size: 0.95rem;
+  padding: 11px 16px; border-radius: 8px;
+  cursor: pointer; margin-bottom: 3px;
+  transition: background 0.2s;
+  font-size: 0.92rem; font-weight: 500;
+  color: rgba(249,251,250,0.85);
 }
-.nav-item:hover, .nav-item.activo { background: rgba(255,255,255,0.15); }
+.nav-item:hover { background: rgba(249,251,250,0.12); color: #f9fbfa; }
+.nav-item.activo { background: rgba(249,251,250,0.18); color: #f9fbfa; font-weight: 700; }
 
 .contenido-principal {
-  margin-left: 240px; padding: 32px;
-  flex: 1; min-height: 100vh;
+  margin-left: 250px; padding: 32px;
+  flex: 1; min-height: 100vh; background: #f9fbfa;
 }
 
 .tarjeta {
   background: white; border-radius: 12px;
   padding: 24px; margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 10px rgba(23,53,89,0.07);
+  border: 1px solid #eaeff4;
 }
-.tarjeta h3 { margin-bottom: 16px; color: #1a3c6e; }
+.tarjeta h3 { margin-bottom: 16px; color: #173559; font-weight: 700; }
 
-.btn { padding: 8px 18px; border-radius: 8px; border: none; cursor: pointer; font-size: 0.9rem; }
-.btn-verde { background: #38a169; color: white; }
-.btn-rojo { background: #e53e3e; color: white; }
-.btn-azul { background: #2d6cb4; color: white; }
-.btn:hover { opacity: 0.85; }
+.btn {
+  padding: 8px 18px; border-radius: 8px; border: none;
+  cursor: pointer; font-size: 0.88rem; font-weight: 600;
+  font-family: 'League Spartan', sans-serif;
+}
+.btn-verde { background: #27ae60; color: white; }
+.btn-rojo { background: #c0392b; color: white; }
+.btn-azul { background: #173559; color: #f9fbfa; }
+.btn-gris { background: #6d7988; color: white; }
+.btn:hover { opacity: 0.87; }
 
 table { width: 100%; border-collapse: collapse; }
-th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 0.9rem; }
-th { background: #f7f8fa; font-weight: 600; color: #555; }
+th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eaeff4; font-size: 0.88rem; }
+th { background: #f4f7f9; font-weight: 700; color: #6d7988; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
 
 .badge {
   display: inline-block; padding: 3px 10px;
-  border-radius: 20px; font-size: 0.78rem; font-weight: 600;
+  border-radius: 20px; font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.3px;
 }
-.badge-verde { background: #c6f6d5; color: #276749; }
-.badge-amarillo { background: #fefcbf; color: #744210; }
-.badge-rojo { background: #fed7d7; color: #822727; }
+.badge-verde { background: #d5f5e3; color: #1e8449; }
+.badge-amarillo { background: #fef9e7; color: #9a7d0a; }
+.badge-rojo { background: #fadbd8; color: #922b21; }
+.badge-gris { background: #eaecee; color: #5d6d7e; }
 
 .cerrar-sesion {
   margin-top: auto; padding: 12px 16px;
-  background: rgba(255,255,255,0.1); border-radius: 8px;
-  cursor: pointer; text-align: center; font-size: 0.9rem;
+  background: rgba(249,251,250,0.08); border-radius: 8px;
+  cursor: pointer; text-align: center; font-size: 0.88rem;
+  color: rgba(249,251,250,0.7);
+  transition: background 0.2s;
 }
-.cerrar-sesion:hover { background: rgba(255,255,255,0.2); }
+.cerrar-sesion:hover { background: rgba(249,251,250,0.15); color: #f9fbfa; }
 
+/* ===== RESPONSIVE MÓVIL ===== */
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
@@ -120,46 +206,35 @@ th { background: #f7f8fa; font-weight: 600; color: #555; }
     position: relative;
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 12px;
+    padding: 10px 12px;
+    gap: 4px;
+    align-items: center;
   }
 
+  .sidebar-logo img { width: 32px; height: 32px; }
+  .sidebar-logo { margin-bottom: 0; margin-right: 8px; }
+  .sidebar-titulo { display: none; }
+  .sidebar-slogan { display: none; }
+  .sidebar-divisor { display: none; }
+
   .sidebar .usuario-nombre {
-    width: 100%;
-    margin-bottom: 8px;
-    font-size: 0.95rem;
+    width: 100%; margin-bottom: 6px; font-size: 0.85rem;
   }
 
   .nav-item {
-    padding: 8px 10px;
-    font-size: 0.82rem;
-    margin-bottom: 0;
+    padding: 7px 10px; font-size: 0.78rem; margin-bottom: 0;
   }
 
-  .cerrar-sesion {
-    margin-top: 0;
-    padding: 8px 12px;
-    font-size: 0.82rem;
-  }
+  .cerrar-sesion { margin-top: 0; padding: 7px 12px; font-size: 0.78rem; }
 
-  .contenido-principal {
-    margin-left: 0;
-    padding: 16px;
-  }
+  .contenido-principal { margin-left: 0; padding: 14px; }
 
-  .login-container {
-    margin: 16px;
-    padding: 24px;
-  }
+  .login-container { margin: 14px; padding: 24px; }
 
-  table {
-    font-size: 0.8rem;
-  }
+  table { font-size: 0.78rem; }
+  th, td { padding: 6px 8px; }
 
-  th, td {
-    padding: 7px 8px;
-  }
-
-  .dashboard {
-    flex-direction: column;
+  .dashboard { flex-direction: column; }
+}
   }
 }
