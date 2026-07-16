@@ -369,5 +369,15 @@ tr:hover td { background: #fafbfc; }
   }
   .tarjeta input[id="codigo-seccion"] {
     width: 100% !important;
+    /* Tarjeta de inscribirse: centrada y compacta como las de estadísticas */
+  .tarjeta:has(#codigo-seccion) {
+    text-align: center;
+  }
+  .tarjeta:has(#codigo-seccion) h3 {
+    text-align: center;
+  }
+  .tarjeta:has(#codigo-seccion) > div {
+    align-items: center !important;
+  }
   }
 }
