@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Campus Virtual</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body class="pagina-login">
+  <div class="login-container">
+    <div class="login-logo">
+      <h1>🎓 Campus Virtual</h1>
+      <p>Plataforma Educativa</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab activo" onclick="mostrarTab('login')">Iniciar Sesión</button>
+      <button class="tab" onclick="mostrarTab('registro')">Registrarse</button>
+    </div>
+
+    <!-- Formulario Login -->
+    <form id="form-login" onsubmit="iniciarSesion(event)">
+      <div class="campo">
+        <label>Correo electrónico</label>
+        <input type="email" id="login-email" required placeholder="correo@ejemplo.com"/>
+      </div>
+      <div class="campo">
+        <label>Contraseña</label>
+        <input type="password" id="login-password" required placeholder="••••••••"/>
+      </div>
+      <button type="submit" class="btn-principal">Entrar</button>
+      <p id="login-error" class="mensaje-error"></p>
+    </form>
+
+    <!-- Formulario Registro -->
+    <form id="form-registro" style="display:none" onsubmit="registrarse(event)">
+      <div class="campo">
+        <label>Nombre completo</label>
+        <input type="text" id="reg-nombre" required placeholder="Tu nombre completo"/>
+      </div>
+      <div class="campo">
+        <label>Correo electrónico</label>
+        <input type="email" id="reg-email" required placeholder="correo@ejemplo.com"/>
+      </div>
+      <div class="campo">
+        <label>Número de cuenta</label>
+        <input type="text" id="reg-cuenta" placeholder="Ej: 20231234"/>
+      </div>
+      <div class="campo">
+        <label>Contraseña</label>
+        <input type="password" id="reg-password" required placeholder="Mínimo 6 caracteres"/>
+      </div>
+      <div class="campo">
+        <label>Soy...</label>
+        <select id="reg-rol">
+          <option value="estudiante">Estudiante</option>
+          <option value="profesor">Profesor</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-principal">Crear cuenta</button>
+      <p id="reg-error" class="mensaje-error"></p>
+      <p id="reg-exito" class="mensaje-exito"></p>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
