@@ -80,5 +80,3 @@ function togglePassword(inputId, icono) {
     icono.textContent = '◎';
   }
 }
-  }
-}
