@@ -105,8 +105,26 @@ body {
 .mensaje-error { color: #c0392b; font-size: 0.85rem; margin-top: 10px; text-align: center; }
 .mensaje-exito { color: #27ae60; font-size: 0.85rem; margin-top: 10px; text-align: center; }
 
+/* ===== BARRA SUPERIOR INSTITUCIONAL ===== */
+.topbar-institucional {
+  height: 72px;
+  background: #ffffff;
+  border-bottom: 1px solid #eef1f5;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+}
+.topbar-institucional .logo-izq { display: flex; align-items: center; gap: 10px; }
+.topbar-institucional .logo-izq img { height: 44px; width: auto; object-fit: contain; display: block; }
+.topbar-institucional .nombre-institucion {
+  font-size: 0.85rem; font-weight: 700; color: var(--azul-marino); line-height: 1.2;
+}
+.topbar-institucional .nombre-institucion small {
+  display: block; font-weight: 400; color: var(--plata); font-size: 0.7rem;
+}
+
 /* ===== DASHBOARD - LAYOUT GENERAL ===== */
-.dashboard { display: flex; min-height: 100vh; }
+.dashboard { display: flex; min-height: 100vh; margin-top: 72px; }
 
 .sidebar {
   width: 240px;
@@ -114,25 +132,7 @@ body {
   color: #f9fbfa;
   padding: 24px 16px;
   display: flex; flex-direction: column;
-  position: fixed; height: 100vh; overflow-y: auto;
-}
-
-.sidebar-logo {
-  text-align: center; margin-bottom: 14px;
-  background: #ffffff; border-radius: 14px; padding: 12px 10px;
-}
-.sidebar-logo img { width: 120px; height: auto; object-fit: contain; }
-
-.sidebar-titulo {
-  text-align: center; font-size: 0.8rem; font-weight: 700;
-  line-height: 1.4; color: #f9fbfa; margin-bottom: 4px;
-}
-.sidebar-slogan {
-  text-align: center; font-size: 0.68rem;
-  color: rgba(249,251,250,0.5); font-style: italic; margin-bottom: 18px;
-}
-.sidebar-divisor {
-  border: none; border-top: 1px solid rgba(249,251,250,0.12); margin-bottom: 16px;
+  position: fixed; top: 72px; height: calc(100vh - 72px); overflow-y: auto;
 }
 
 .sidebar .usuario-nombre {
@@ -165,7 +165,7 @@ body {
 
 .contenido-principal {
   margin-left: 240px; padding: 32px 36px;
-  flex: 1; min-height: 100vh; background: var(--fondo);
+  flex: 1; min-height: calc(100vh - 72px); background: var(--fondo);
 }
 
 /* ===== BARRA DE BIENVENIDA ===== */
@@ -173,9 +173,7 @@ body {
   display: flex; justify-content: space-between; align-items: flex-start;
   margin-bottom: 28px; flex-wrap: wrap; gap: 16px;
 }
-.topbar-bienvenida h2 {
-  font-size: 1.5rem; font-weight: 700; color: var(--azul-marino);
-}
+.topbar-bienvenida h2 { font-size: 1.5rem; font-weight: 700; color: var(--azul-marino); }
 .topbar-bienvenida p { color: var(--plata); font-size: 0.92rem; margin-top: 4px; }
 
 .buscador-top {
@@ -210,6 +208,47 @@ body {
 .stat-valor { font-size: 1.6rem; font-weight: 700; color: var(--azul-marino); line-height: 1; }
 .stat-label { font-size: 0.8rem; color: var(--plata); margin-top: 4px; }
 
+/* ===== LAYOUT CON PANEL DERECHO ===== */
+.layout-con-panel { display: flex; gap: 24px; align-items: flex-start; }
+.columna-principal { flex: 1; min-width: 0; }
+.panel-derecho { width: 300px; flex-shrink: 0; }
+
+/* ===== WIDGET DE CALENDARIO ===== */
+.widget-calendario {
+  background: white; border-radius: 16px; padding: 20px;
+  box-shadow: 0 4px 18px rgba(18,45,82,0.06); border: 1px solid #eef1f5;
+  margin-bottom: 20px;
+}
+.widget-calendario h3 {
+  font-size: 0.95rem; color: var(--azul-marino); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.calendario-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.calendario-nav span { font-weight: 700; font-size: 0.85rem; color: var(--azul-marino); }
+.calendario-nav button { background: none; border: none; cursor: pointer; color: var(--plata); font-size: 1rem; }
+.calendario-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+.calendario-grid .dia-nombre { font-size: 0.68rem; color: var(--plata); font-weight: 700; }
+.calendario-grid .dia-numero { font-size: 0.78rem; padding: 6px 0; border-radius: 8px; color: var(--azul-marino); }
+.calendario-grid .dia-numero.hoy { background: var(--azul-marino); color: white; font-weight: 700; }
+.calendario-grid .dia-numero.otro-mes { color: #cbd2da; }
+
+.widget-eventos {
+  background: white; border-radius: 16px; padding: 20px;
+  box-shadow: 0 4px 18px rgba(18,45,82,0.06); border: 1px solid #eef1f5;
+}
+.widget-eventos h3 {
+  font-size: 0.95rem; color: var(--azul-marino); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.evento-item { display: flex; gap: 10px; margin-bottom: 14px; }
+.evento-icono {
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 0.95rem;
+  background: rgba(86,156,250,0.15);
+}
+.evento-titulo { font-size: 0.82rem; font-weight: 600; color: var(--azul-marino); }
+.evento-meta { font-size: 0.72rem; color: var(--plata); margin-top: 2px; }
+
 /* ===== TARJETAS GENERALES ===== */
 .tarjeta {
   background: white; border-radius: 16px; padding: 26px; margin-bottom: 20px;
@@ -242,12 +281,8 @@ body {
 .curso-body { padding: 18px 20px; }
 .curso-body h4 { font-size: 1.05rem; color: var(--azul-marino); margin-bottom: 4px; }
 .curso-body .curso-meta { font-size: 0.78rem; color: var(--plata); margin-bottom: 10px; }
-.curso-progreso-barra {
-  height: 6px; background: #eef1f5; border-radius: 10px; overflow: hidden; margin-bottom: 6px;
-}
-.curso-progreso-fill {
-  height: 100%; background: var(--azul-claro); border-radius: 10px;
-}
+.curso-progreso-barra { height: 6px; background: #eef1f5; border-radius: 10px; overflow: hidden; margin-bottom: 6px; }
+.curso-progreso-fill { height: 100%; background: var(--azul-claro); border-radius: 10px; }
 .curso-progreso-pct { font-size: 0.78rem; font-weight: 700; color: var(--azul-marino); text-align: right; }
 
 /* ===== BOTONES ===== */
@@ -265,10 +300,7 @@ th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #eef1f5;
 th { background: #f8f9fb; font-weight: 700; color: var(--plata); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.6px; }
 tr:hover td { background: #fafbfc; }
 
-.badge {
-  display: inline-block; padding: 4px 12px; border-radius: 20px;
-  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.3px;
-}
+.badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.3px; }
 .badge-verde { background: #d5f5e3; color: #1e8449; }
 .badge-amarillo { background: #fef9e7; color: #9a7d0a; }
 .badge-rojo { background: #fadbd8; color: #922b21; }
@@ -283,15 +315,26 @@ tr:hover td { background: #fafbfc; }
 }
 .toggle-password:hover { color: var(--azul-marino); }
 
+/* ===== PIE DE PÁGINA INSTITUCIONAL ===== */
+.footer-institucional {
+  background: var(--azul-marino); color: rgba(249,251,250,0.85);
+  text-align: center; padding: 14px 20px; font-size: 0.82rem; font-style: italic;
+  margin-left: 240px;
+}
+
 /* ===== RESPONSIVE MÓVIL ===== */
+@media (max-width: 900px) {
+  .layout-con-panel { flex-direction: column; }
+  .panel-derecho { width: 100%; }
+}
 @media (max-width: 768px) {
+  .topbar-institucional { padding: 0 14px; height: 60px; }
+  .topbar-institucional .logo-izq img { height: 34px; }
+  .dashboard { margin-top: 60px; }
   .sidebar {
-    width: 100%; height: auto; position: relative;
+    width: 100%; height: auto; position: relative; top: 0;
     flex-direction: row; flex-wrap: wrap; padding: 12px 14px; gap: 6px; align-items: center;
   }
-  .sidebar-logo { padding: 6px; margin-bottom: 0; margin-right: 8px; }
-  .sidebar-logo img { width: 40px; height: 40px; }
-  .sidebar-titulo, .sidebar-slogan, .sidebar-divisor { display: none; }
   .sidebar .usuario-nombre { width: 100%; margin-bottom: 6px; font-size: 0.85rem; padding-bottom: 8px; }
   .nav-item { padding: 8px 12px; font-size: 0.78rem; margin-bottom: 0; }
   .cerrar-sesion { margin-top: 0; padding: 8px 14px; font-size: 0.78rem; }
@@ -301,98 +344,5 @@ tr:hover td { background: #fafbfc; }
   th, td { padding: 8px 10px; }
   .dashboard { flex-direction: column; }
   .stats-grid { grid-template-columns: repeat(2,1fr); }
-}
-/* ===== BARRA SUPERIOR INSTITUCIONAL ===== */
-.topbar-institucional {
-  height: 72px;
-  background: #ffffff;
-  border-bottom: 1px solid #eef1f5;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 28px;
-  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-}
-.topbar-institucional .logo-izq { display: flex; align-items: center; gap: 10px; }
-.topbar-institucional .logo-izq img { height: 44px; width: auto; object-fit: contain; }
-.topbar-institucional .nombre-institucion {
-  font-size: 0.85rem; font-weight: 700; color: var(--azul-marino); line-height: 1.2;
-}
-.topbar-institucional .nombre-institucion small {
-  display: block; font-weight: 400; color: var(--plata); font-size: 0.7rem;
-}
-
-/* Ajuste general por la barra fija arriba */
-.dashboard { margin-top: 72px; }
-.sidebar { top: 72px; height: calc(100vh - 72px); }
-
-/* ===== LAYOUT CON PANEL DERECHO ===== */
-.layout-con-panel {
-  display: flex; gap: 24px; align-items: flex-start;
-}
-.columna-principal { flex: 1; min-width: 0; }
-.panel-derecho { width: 300px; flex-shrink: 0; }
-
-/* ===== WIDGET DE CALENDARIO ===== */
-.widget-calendario {
-  background: white; border-radius: 16px; padding: 20px;
-  box-shadow: 0 4px 18px rgba(18,45,82,0.06); border: 1px solid #eef1f5;
-  margin-bottom: 20px;
-}
-.widget-calendario h3 {
-  font-size: 0.95rem; color: var(--azul-marino); margin-bottom: 14px;
-  display: flex; align-items: center; gap: 8px;
-}
-.calendario-nav {
-  display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
-}
-.calendario-nav span { font-weight: 700; font-size: 0.85rem; color: var(--azul-marino); }
-.calendario-nav button {
-  background: none; border: none; cursor: pointer; color: var(--plata); font-size: 1rem;
-}
-.calendario-grid {
-  display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center;
-}
-.calendario-grid .dia-nombre { font-size: 0.68rem; color: var(--plata); font-weight: 700; }
-.calendario-grid .dia-numero {
-  font-size: 0.78rem; padding: 6px 0; border-radius: 8px; color: var(--azul-marino);
-}
-.calendario-grid .dia-numero.hoy {
-  background: var(--azul-marino); color: white; font-weight: 700;
-}
-.calendario-grid .dia-numero.otro-mes { color: #cbd2da; }
-
-.widget-eventos {
-  background: white; border-radius: 16px; padding: 20px;
-  box-shadow: 0 4px 18px rgba(18,45,82,0.06); border: 1px solid #eef1f5;
-}
-.widget-eventos h3 {
-  font-size: 0.95rem; color: var(--azul-marino); margin-bottom: 14px;
-  display: flex; align-items: center; gap: 8px;
-}
-.evento-item { display: flex; gap: 10px; margin-bottom: 14px; }
-.evento-icono {
-  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center; font-size: 0.95rem;
-  background: rgba(86,156,250,0.15);
-}
-.evento-titulo { font-size: 0.82rem; font-weight: 600; color: var(--azul-marino); }
-.evento-meta { font-size: 0.72rem; color: var(--plata); margin-top: 2px; }
-
-/* ===== PIE DE PÁGINA INSTITUCIONAL ===== */
-.footer-institucional {
-  background: var(--azul-marino); color: rgba(249,251,250,0.85);
-  text-align: center; padding: 14px 20px; font-size: 0.82rem; font-style: italic;
-  margin-left: 240px;
-}
-
-/* ===== RESPONSIVE (agrega dentro del @media existente) ===== */
-@media (max-width: 900px) {
-  .layout-con-panel { flex-direction: column; }
-  .panel-derecho { width: 100%; }
-}
-@media (max-width: 768px) {
-  .topbar-institucional { padding: 0 14px; height: 60px; }
-  .topbar-institucional .logo-izq img { height: 34px; }
-  .dashboard { margin-top: 60px; }
-  .sidebar { top: 60px; height: auto; position: relative; }
   .footer-institucional { margin-left: 0; }
 }
