@@ -32,20 +32,41 @@ async function cargarClases() {
     .select('seccion_id, secciones(id, nombre, codigo, descripcion, periodo, perfiles(nombre))')
     .eq('estudiante_id', usuarioActual.id);
 
+  document.getElementById('titulo-bienvenida').textContent = `¡Bienvenido/a, ${usuarioActual.nombre.split(' ')[0]}! 👋`;
+  document.getElementById('stat-clases').textContent = data ? data.length : 0;
+
   const contenedor = document.getElementById('lista-clases');
   if (!data || data.length === 0) {
-    contenedor.innerHTML = '<div class="tarjeta"><p style="color:#888;">No estás inscrito en ninguna clase aún. Usa el código de tu profesor para inscribirte.</p></div>';
-    return;
+    contenedor.innerHTML = '<div class="tarjeta"><p style="color:var(--plata);">No estás inscrito en ninguna clase aún. Usa el código de tu profesor para inscribirte.</p></div>';
+  } else {
+    contenedor.innerHTML = data.map(i => `
+      <div class="curso-card">
+        <div class="curso-banner">
+          <span class="curso-etiqueta">${i.secciones.codigo}</span>
+        </div>
+        <div class="curso-body">
+          <h4>${i.secciones.nombre}</h4>
+          <div class="curso-meta">👨‍🏫 ${i.secciones.perfiles?.nombre || 'Sin asignar'} · ${i.secciones.periodo}</div>
+          <p style="font-size:0.85rem; color:var(--plata); margin-bottom:12px;">${i.secciones.descripcion || ''}</p>
+        </div>
+      </div>
+    `).join('');
   }
 
-  contenedor.innerHTML = data.map(i => `
-    <div class="tarjeta">
-      <h3>${i.secciones.nombre}</h3>
-      <p style="color:#888; font-size:0.85rem; margin-top:4px;">Código: <strong>${i.secciones.codigo}</strong> · Periodo: ${i.secciones.periodo}</p>
-      <p style="margin-top:8px; font-size:0.9rem;">${i.secciones.descripcion || ''}</p>
-      <p style="margin-top:8px; font-size:0.85rem; color:#555;">👨‍🏫 Profesor: ${i.secciones.perfiles?.nombre || 'Sin asignar'}</p>
-    </div>
-  `).join('');
+  if (data && data.length > 0) {
+    const ids = data.map(i => i.seccion_id);
+    const { data: tareas } = await supabase.from('tareas').select('id').in('seccion_id', ids);
+    const { data: entregas } = await supabase.from('entregas').select('tarea_id, calificacion').eq('estudiante_id', usuarioActual.id);
+    const entregadasIds = new Set((entregas || []).map(e => e.tarea_id));
+    const pendientes = (tareas || []).filter(t => !entregadasIds.has(t.id)).length;
+    document.getElementById('stat-tareas-pend').textContent = pendientes;
+
+    const calificadas = (entregas || []).filter(e => e.calificacion !== null);
+    if (calificadas.length > 0) {
+      const prom = calificadas.reduce((acc, e) => acc + e.calificacion, 0) / calificadas.length;
+      document.getElementById('stat-promedio').textContent = prom.toFixed(1);
+    }
+  }
 }
 
 async function inscribirse() {
@@ -54,12 +75,12 @@ async function inscribirse() {
   if (!codigo) return;
 
   const { data: seccion } = await supabase.from('secciones').select('id, nombre').eq('codigo', codigo).single();
-  if (!seccion) { msg.style.color = '#e53e3e'; msg.textContent = 'Código no encontrado.'; return; }
+  if (!seccion) { msg.style.color = '#c0392b'; msg.textContent = 'Código no encontrado.'; return; }
 
   const { error } = await supabase.from('inscripciones').insert({ estudiante_id: usuarioActual.id, seccion_id: seccion.id });
-  if (error) { msg.style.color = '#e53e3e'; msg.textContent = 'Ya estás inscrito o ocurrió un error.'; return; }
+  if (error) { msg.style.color = '#c0392b'; msg.textContent = 'Ya estás inscrito o ocurrió un error.'; return; }
 
-  msg.style.color = '#38a169';
+  msg.style.color = '#27ae60';
   msg.textContent = `¡Inscrito en ${seccion.nombre}!`;
   document.getElementById('codigo-seccion').value = '';
   cargarClases();
@@ -68,7 +89,7 @@ async function inscribirse() {
 async function cargarTareas() {
   const { data: inscripciones } = await supabase.from('inscripciones').select('seccion_id').eq('estudiante_id', usuarioActual.id);
   if (!inscripciones || inscripciones.length === 0) {
-    document.getElementById('lista-tareas').innerHTML = '<div class="tarjeta"><p style="color:#888;">No tienes clases inscritas.</p></div>';
+    document.getElementById('lista-tareas').innerHTML = '<div class="tarjeta"><p style="color:var(--plata);">No tienes clases inscritas.</p></div>';
     return;
   }
 
@@ -79,7 +100,7 @@ async function cargarTareas() {
 
   const contenedor = document.getElementById('lista-tareas');
   if (!tareas || tareas.length === 0) {
-    contenedor.innerHTML = '<div class="tarjeta"><p style="color:#888;">No hay tareas publicadas aún.</p></div>';
+    contenedor.innerHTML = '<div class="tarjeta"><p style="color:var(--plata);">No hay tareas publicadas aún.</p></div>';
     return;
   }
 
@@ -92,13 +113,13 @@ async function cargarTareas() {
         <div style="display:flex; justify-content:space-between; align-items:start;">
           <div>
             <h3>${t.titulo}</h3>
-            <p style="color:#888; font-size:0.85rem;">Clase: ${t.secciones.nombre} · Puntos: ${t.puntos}</p>
+            <p style="color:var(--plata); font-size:0.85rem;">Clase: ${t.secciones.nombre} · Puntos: ${t.puntos}</p>
             ${t.fecha_limite ? `<p style="font-size:0.85rem; margin-top:4px;">📅 Vence: ${new Date(t.fecha_limite).toLocaleDateString('es-HN', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</p>` : ''}
             <p style="margin-top:8px; font-size:0.9rem;">${t.descripcion || ''}</p>
           </div>
           <div>${estado}</div>
         </div>
-        ${!yaEntrego && !vencida ? `<button class="btn btn-azul" style="margin-top:12px;" onclick="abrirModal('${t.id}','${t.titulo.replace(/'/g,"\\'")}')">Entregar</button>` : ''}
+        ${!yaEntrego && !vencida ? `<button class="btn btn-celeste" style="margin-top:12px;" onclick="abrirModal('${t.id}','${t.titulo.replace(/'/g,"\\'")}')">Entregar</button>` : ''}
       </div>
     `;
   }).join('');
@@ -127,7 +148,7 @@ async function subirEntrega() {
     const ext = archivo.name.split('.').pop();
     const ruta = `entregas/${usuarioActual.id}/${tareaSeleccionada}.${ext}`;
     const { error: uploadError } = await supabase.storage.from('entregas').upload(ruta, archivo, { upsert: true });
-    if (uploadError) { msg.style.color = '#e53e3e'; msg.textContent = 'Error al subir el archivo.'; return; }
+    if (uploadError) { msg.style.color = '#c0392b'; msg.textContent = 'Error al subir el archivo.'; return; }
     const { data: urlData } = supabase.storage.from('entregas').getPublicUrl(ruta);
     archivoUrl = urlData.publicUrl;
   }
@@ -139,9 +160,9 @@ async function subirEntrega() {
     comentario
   });
 
-  if (error) { msg.style.color = '#e53e3e'; msg.textContent = 'Error al registrar la entrega.'; return; }
+  if (error) { msg.style.color = '#c0392b'; msg.textContent = 'Error al registrar la entrega.'; return; }
 
-  msg.style.color = '#38a169';
+  msg.style.color = '#27ae60';
   msg.textContent = '¡Tarea entregada con éxito!';
   setTimeout(() => { cerrarModal(); cargarTareas(); }, 1500);
 }
@@ -149,7 +170,7 @@ async function subirEntrega() {
 async function cargarMateriales() {
   const { data: inscripciones } = await supabase.from('inscripciones').select('seccion_id').eq('estudiante_id', usuarioActual.id);
   if (!inscripciones || inscripciones.length === 0) {
-    document.getElementById('lista-materiales').innerHTML = '<div class="tarjeta"><p style="color:#888;">No tienes clases inscritas.</p></div>';
+    document.getElementById('lista-materiales').innerHTML = '<div class="tarjeta"><p style="color:var(--plata);">No tienes clases inscritas.</p></div>';
     return;
   }
 
@@ -158,7 +179,7 @@ async function cargarMateriales() {
 
   const contenedor = document.getElementById('lista-materiales');
   if (!data || data.length === 0) {
-    contenedor.innerHTML = '<div class="tarjeta"><p style="color:#888;">No hay materiales publicados aún.</p></div>';
+    contenedor.innerHTML = '<div class="tarjeta"><p style="color:var(--plata);">No hay materiales publicados aún.</p></div>';
     return;
   }
 
@@ -169,10 +190,10 @@ async function cargarMateriales() {
         <tbody>
           ${data.map(d => `
             <tr>
-              <td>${d.titulo}<br/><small style="color:#888;">${d.descripcion || ''}</small></td>
+              <td>${d.titulo}<br/><small style="color:var(--plata);">${d.descripcion || ''}</small></td>
               <td>${d.secciones.nombre}</td>
               <td>${new Date(d.created_at).toLocaleDateString('es-HN')}</td>
-              <td><a href="${d.archivo_url}" target="_blank" class="btn btn-azul" style="text-decoration:none; font-size:0.8rem;">⬇ Descargar</a></td>
+              <td><a href="${d.archivo_url}" target="_blank" class="btn btn-celeste" style="text-decoration:none; font-size:0.8rem;">⬇ Descargar</a></td>
             </tr>
           `).join('')}
         </tbody>
@@ -189,7 +210,7 @@ async function cargarCalificaciones() {
 
   const contenedor = document.getElementById('lista-calificaciones');
   if (!data || data.length === 0) {
-    contenedor.innerHTML = '<div class="tarjeta"><p style="color:#888;">Aún no tienes calificaciones.</p></div>';
+    contenedor.innerHTML = '<div class="tarjeta"><p style="color:var(--plata);">Aún no tienes calificaciones.</p></div>';
     return;
   }
 
@@ -203,7 +224,7 @@ async function cargarCalificaciones() {
               <td>${e.tareas.titulo}</td>
               <td>${e.tareas.secciones.nombre}</td>
               <td>${e.tareas.puntos}</td>
-              <td>${e.calificacion !== null ? `<strong>${e.calificacion}</strong>` : '<span style="color:#888;">Sin calificar</span>'}</td>
+              <td>${e.calificacion !== null ? `<strong>${e.calificacion}</strong>` : '<span style="color:var(--plata);">Sin calificar</span>'}</td>
             </tr>
           `).join('')}
         </tbody>
