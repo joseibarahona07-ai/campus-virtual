@@ -8,9 +8,11 @@ async function init() {
   const { data: perfil } = await supabase.from('perfiles').select('*').eq('id', user.id).single();
   if (!perfil || perfil.rol !== 'estudiante') { window.location.href = 'index.html'; return; }
 
-  usuarioActual = perfil;
-  document.getElementById('nombre-usuario').textContent = perfil.nombre;
-  cargarClases();
+ usuarioActual = perfil;
+document.getElementById('nombre-usuario').textContent = perfil.nombre;
+cargarClases();
+dibujarCalendario();
+cargarProximosEventos();
 }
 
 function mostrarSeccion(nombre) {
