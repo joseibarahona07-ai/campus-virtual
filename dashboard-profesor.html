@@ -10,14 +10,19 @@
   <link rel="stylesheet" href="css/estilos.css"/>
 </head>
 <body>
+
+<div class="topbar-institucional">
+  <div class="logo-izq">
+    <img src="img/logoo.jpeg" alt="PANB"/>
+    <div class="nombre-institucion">
+      Portal Académico Nimia Baquedano
+      <small>Formando futuro y conocimiento</small>
+    </div>
+  </div>
+</div>
+
 <div class="dashboard">
   <div class="sidebar">
-    <div class="sidebar-logo">
-      <img src="img/logoo.jpeg" alt="PANB"/>
-    </div>
-    <div class="sidebar-titulo">Portal Académico Nimia Baquedano</div>
-    <div class="sidebar-slogan">Formando futuro y conocimiento</div>
-    <hr class="sidebar-divisor"/>
     <div class="usuario-nombre" id="nombre-usuario">Cargando...</div>
     <div class="nav-item activo" onclick="mostrarSeccion('mis-secciones')">📚 Mis Secciones</div>
     <div class="nav-item" onclick="mostrarSeccion('tareas')">📝 Tareas</div>
@@ -81,22 +86,22 @@
             <input type="text" id="nueva-periodo" placeholder="Ej: 2025-1"/>
           </div>
           <div class="campo">
-  <label>Grado</label>
-  <select id="nueva-grado">
-    <option value="">Selecciona el grado</option>
-   <option value="10º 1">10º 1</option>
-    <option value="10º 2">10º 2</option>
-    <option value="10º 3">10º 3</option>
-    <option value="10º 4">10º 4</option>
-    <option value="Bachillerato en Informática BTPI">Bachillerato en Informática BTPI</option>
-    <option value="Bachillerato en Informática BTPI">Bachillerato en Contaduria y Finanzas BTPC&F</option>
-    <option value="Bachillerato en Informática BTPI">Bachillerato en Ciencias y Humanidades BCH</option>
-  </select>
-</div>
-          <div class="campo">
-            <label>Descripción (opcional)</label>
-            <input type="text" id="nueva-descripcion" placeholder="Breve descripción"/>
+            <label>Grado</label>
+            <select id="nueva-grado">
+              <option value="">Selecciona el grado</option>
+              <option value="10° 1">10° 1</option>
+              <option value="10° 2">10° 2</option>
+              <option value="10° 3">10° 3</option>
+              <option value="Bachillerato en Informática">Bachillerato en Informática</option>
+              <option value="Bachillerato en Contaduría y Finanzas">Bachillerato en Contaduría y Finanzas</option>
+              <option value="Bachillerato en Ciencias y Humanidades">Bachillerato en Ciencias y Humanidades</option>
+              <option value="Bachillerato en Salud y Nutrición Comunitaria">Bachillerato en Salud y Nutrición Comunitaria</option>
+            </select>
           </div>
+        </div>
+        <div class="campo">
+          <label>Descripción (opcional)</label>
+          <input type="text" id="nueva-descripcion" placeholder="Breve descripción"/>
         </div>
         <button class="btn btn-verde" onclick="crearSeccion()">+ Crear Sección</button>
         <p id="msg-seccion" style="margin-top:10px; font-size:0.85rem;"></p>
@@ -191,6 +196,10 @@
     </div>
 
   </div>
+</div>
+
+<div class="footer-institucional">
+  Formando futuro y conocimiento — Portal Académico Nimia Baquedano
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
