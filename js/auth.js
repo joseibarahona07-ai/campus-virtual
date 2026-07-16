@@ -73,8 +73,9 @@ function togglePassword(inputId, icono) {
   const input = document.getElementById(inputId);
   if (input.type === 'password') {
     input.type = 'text';
-    icono.textContent = '⊘';
+    icono.textContent = '◉';
   } else {
     input.type = 'password';
     icono.textContent = '◎';
   }
+}
