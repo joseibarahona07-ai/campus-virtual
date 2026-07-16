@@ -53,10 +53,13 @@
         <label>Número de cuenta</label>
         <input type="text" id="reg-cuenta" placeholder="Ej: 20231234"/>
       </div>
-      <div class="campo">
-        <label>Contraseña</label>
-        <input type="password" id="reg-password" required placeholder="Mínimo 6 caracteres"/>
-      </div>
+     <div class="campo">
+  <label>Contraseña</label>
+  <div class="campo-password">
+    <input type="password" id="reg-password" required placeholder="Mínimo 6 caracteres"/>
+    <span class="toggle-password" onclick="togglePassword('reg-password', this)">◎</span>
+  </div>
+</div>
       <div class="campo">
         <label>Soy...</label>
         <select id="reg-rol">
