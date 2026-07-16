@@ -1,6 +1,5 @@
 let usuarioActual = null;
 let misSeccionesCache = [];
-let mesCalendario = new Date();
 
 async function init() {
   const { data: { user } } = await supabase.auth.getUser();
@@ -59,7 +58,6 @@ async function cargarSecciones() {
     `).join('');
   }
 
-  // Estadísticas: total de tareas y estudiantes
   const ids = misSeccionesCache.map(s => s.id);
   if (ids.length > 0) {
     const { count: tareasCount } = await supabase.from('tareas').select('*', { count: 'exact', head: true }).in('seccion_id', ids);
