@@ -9,7 +9,8 @@ async function init() {
   if (!perfil || perfil.rol !== 'admin') { window.location.href = 'index.html'; return; }
 
   usuarioActual = perfil;
-document.getElementById('titulo-bienvenida').textContent = `Panel de Administración — ${perfil.nombre.split(' ')[0]} 👋`;
+  document.getElementById('nombre-usuario').textContent = perfil.nombre;
+  document.getElementById('titulo-bienvenida').textContent = `Panel de Administración — ${perfil.nombre.split(' ')[0]} 👋`;
   cargarResumen();
 }
 
@@ -46,7 +47,7 @@ async function cargarResumen() {
 
   const contenedor = document.getElementById('actividad-reciente');
   if (!recientes || recientes.length === 0) {
-    contenedor.innerHTML = '<p style="color:#888;">No hay registros aún.</p>';
+    contenedor.innerHTML = '<p style="color:var(--plata);">No hay registros aún.</p>';
     return;
   }
 
@@ -93,25 +94,26 @@ function filtrarUsuarios() {
 function renderizarUsuarios(usuarios) {
   const contenedor = document.getElementById('lista-usuarios');
   if (!usuarios || usuarios.length === 0) {
-    contenedor.innerHTML = '<div class="tarjeta"><p style="color:#888;">No se encontraron usuarios.</p></div>';
+    contenedor.innerHTML = '<div class="tarjeta"><p style="color:var(--plata);">No se encontraron usuarios.</p></div>';
     return;
   }
 
   contenedor.innerHTML = `
     <div class="tarjeta">
-      <p style="margin-bottom:12px; color:#555;">${usuarios.length} usuario(s)</p>
+      <p style="margin-bottom:12px; color:var(--plata);">${usuarios.length} usuario(s)</p>
       <table>
-        <thead><tr><th>Nombre</th><th>Correo</th><th>Cuenta</th><th>Rol</th><th>Cambiar rol</th></tr></thead>
+        <thead><tr><th>Nombre</th><th>Correo</th><th>Cuenta</th><th>Grado</th><th>Rol</th><th>Cambiar rol</th></tr></thead>
         <tbody>
           ${usuarios.map(u => `
             <tr>
               <td>${u.nombre}</td>
               <td>${u.email}</td>
               <td>${u.numero_cuenta || '—'}</td>
+              <td>${u.grado || '—'}</td>
               <td><span class="badge ${u.rol === 'profesor' ? 'badge-amarillo' : u.rol === 'admin' ? 'badge-rojo' : 'badge-verde'}">${u.rol}</span></td>
               <td>
                 <select onchange="cambiarRol('${u.id}', this.value)"
-                  style="padding:5px; border:1px solid #ddd; border-radius:6px; font-size:0.85rem;">
+                  style="padding:5px; border:1.5px solid #e4e9ef; border-radius:8px; font-size:0.85rem;">
                   <option value="estudiante" ${u.rol === 'estudiante' ? 'selected' : ''}>Estudiante</option>
                   <option value="profesor" ${u.rol === 'profesor' ? 'selected' : ''}>Profesor</option>
                   <option value="admin" ${u.rol === 'admin' ? 'selected' : ''}>Admin</option>
@@ -140,19 +142,20 @@ async function cargarSeccionesAdmin() {
 
   const contenedor = document.getElementById('lista-secciones-admin');
   if (!data || data.length === 0) {
-    contenedor.innerHTML = '<div class="tarjeta"><p style="color:#888;">No hay secciones creadas aún.</p></div>';
+    contenedor.innerHTML = '<div class="tarjeta"><p style="color:var(--plata);">No hay secciones creadas aún.</p></div>';
     return;
   }
 
   contenedor.innerHTML = `
     <div class="tarjeta">
       <table>
-        <thead><tr><th>Nombre</th><th>Código</th><th>Periodo</th><th>Profesor</th><th>Acción</th></tr></thead>
+        <thead><tr><th>Nombre</th><th>Código</th><th>Grado</th><th>Periodo</th><th>Profesor</th><th>Acción</th></tr></thead>
         <tbody>
           ${data.map(s => `
             <tr>
               <td>${s.nombre}</td>
               <td><strong>${s.codigo}</strong></td>
+              <td>${s.grado || '—'}</td>
               <td>${s.periodo}</td>
               <td>${s.perfiles?.nombre || '—'}</td>
               <td><button class="btn btn-rojo" style="font-size:0.8rem;" onclick="eliminarSeccion('${s.id}', '${s.nombre.replace(/'/g,"\\'")}')">Eliminar</button></td>
@@ -207,25 +210,6 @@ async function crearUsuario() {
   document.getElementById('cu-password').value = '';
   document.getElementById('cu-cuenta').value = '';
   document.getElementById('cu-grado').value = '';
-}
-
-  const { data, error } = await supabase.auth.signUp({ email, password });
-  if (error) { msg.style.color = '#e53e3e'; msg.textContent = 'Error: ' + error.message; return; }
-
-  const { error: perfilError } = await supabase.from('perfiles').insert({
-    id: data.user.id,
-    nombre, email, rol,
-    numero_cuenta: cuenta || null
-  });
-
-  if (perfilError) { msg.style.color = '#e53e3e'; msg.textContent = 'Error al crear perfil: ' + perfilError.message; return; }
-
-  msg.style.color = '#38a169';
-  msg.textContent = `¡Usuario "${nombre}" creado como ${rol}!`;
-  document.getElementById('cu-nombre').value = '';
-  document.getElementById('cu-email').value = '';
-  document.getElementById('cu-password').value = '';
-  document.getElementById('cu-cuenta').value = '';
 }
 
 async function cerrarSesion() {
