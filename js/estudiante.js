@@ -1,5 +1,6 @@
 let usuarioActual = null;
 let tareaSeleccionada = null;
+let mesCalendario = new Date();
 
 async function init() {
   const { data: { user } } = await supabase.auth.getUser();
