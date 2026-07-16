@@ -28,35 +28,40 @@ function mostrarSeccion(nombre) {
   if (nombre === 'estudiantes') cargarSelectSecciones('select-seccion-est');
 }
 
-async function cargarSecciones() {
-  const { data } = await supabase
-    .from('secciones')
-    .select('*')
-    .eq('profesor_id', usuarioActual.id)
-    .order('created_at', { ascending: false });
+async function crearSeccion() {
+  const nombre = document.getElementById('nueva-nombre').value.trim();
+  const codigo = document.getElementById('nueva-codigo').value.trim().toUpperCase();
+  const periodo = document.getElementById('nueva-periodo').value.trim();
+  const descripcion = document.getElementById('nueva-descripcion').value.trim();
+  const grado = document.getElementById('nueva-grado').value;
+  const msg = document.getElementById('msg-seccion');
 
-  misSeccionesCache = data || [];
-  document.getElementById('stat-secciones').textContent = misSeccionesCache.length;
-
-  const contenedor = document.getElementById('lista-secciones');
-
-  if (!data || data.length === 0) {
-    contenedor.innerHTML = '<div class="tarjeta"><p style="color:var(--plata);">Aún no has creado ninguna sección.</p></div>';
-  } else {
-    contenedor.innerHTML = data.map(s => `
-      <div class="curso-card">
-        <div class="curso-banner">
-          <span class="curso-etiqueta">${s.codigo}</span>
-        </div>
-        <div class="curso-body">
-          <h4>${s.nombre}</h4>
-          <div class="curso-meta">${s.periodo}</div>
-          <p style="font-size:0.85rem; color:var(--plata); margin-bottom:12px;">${s.descripcion || ''}</p>
-          <p style="font-size:0.78rem; color:var(--plata);">📋 Código para compartir: <strong style="color:var(--azul-marino);">${s.codigo}</strong></p>
-        </div>
-      </div>
-    `).join('');
+  if (!nombre || !codigo || !periodo || !grado) {
+    msg.style.color = '#c0392b';
+    msg.textContent = 'Nombre, código, periodo y grado son obligatorios.';
+    return;
   }
+
+  const { error } = await supabase.from('secciones').insert({
+    nombre, codigo, periodo, descripcion, grado,
+    profesor_id: usuarioActual.id
+  });
+
+  if (error) {
+    msg.style.color = '#c0392b';
+    msg.textContent = error.message.includes('unique') ? 'Ese código ya existe, usa uno diferente.' : 'Error al crear la sección.';
+    return;
+  }
+
+  msg.style.color = '#27ae60';
+  msg.textContent = '¡Sección creada con éxito!';
+  document.getElementById('nueva-nombre').value = '';
+  document.getElementById('nueva-codigo').value = '';
+  document.getElementById('nueva-periodo').value = '';
+  document.getElementById('nueva-descripcion').value = '';
+  document.getElementById('nueva-grado').value = '';
+  cargarSecciones();
+}
 
   // Estadísticas: total de tareas y estudiantes
   const ids = misSeccionesCache.map(s => s.id);
