@@ -36,3 +36,133 @@
     <!-- Resumen -->
     <div id="seccion-resumen">
       <div class="topbar-bienvenida">
+        <div>
+          <h2 id="titulo-bienvenida">Panel de Administración 👋</h2>
+          <p>Resumen general de la plataforma y actividad reciente.</p>
+        </div>
+        <div class="buscador-top">
+          🔍 <input type="text" placeholder="Buscar en el sistema..."/>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icono azul">🎓</div>
+          <div>
+            <div class="stat-valor" id="total-estudiantes">—</div>
+            <div class="stat-label">Estudiantes</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icono celeste">👨‍🏫</div>
+          <div>
+            <div class="stat-valor" id="total-profesores">—</div>
+            <div class="stat-label">Profesores</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icono plata">📚</div>
+          <div>
+            <div class="stat-valor" id="total-secciones">—</div>
+            <div class="stat-label">Secciones</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icono azul">📝</div>
+          <div>
+            <div class="stat-valor" id="total-tareas">—</div>
+            <div class="stat-label">Tareas publicadas</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Actividad reciente — Últimos registros</h3>
+        <div id="actividad-reciente" style="margin-top:12px;"></div>
+      </div>
+    </div>
+
+    <!-- Usuarios -->
+    <div id="seccion-usuarios" style="display:none">
+      <h2 style="margin-bottom:20px; color:var(--azul-marino);">Gestión de Usuarios</h2>
+      <div class="tarjeta" style="margin-bottom:16px;">
+        <div style="display:flex; gap:10px; align-items:center;">
+          <input type="text" id="buscar-usuario" placeholder="Buscar por nombre o correo..."
+            oninput="filtrarUsuarios()"
+            style="padding:10px 14px; border:1.5px solid #e4e9ef; border-radius:10px; font-size:0.9rem; flex:1;"/>
+          <select id="filtro-rol" onchange="filtrarUsuarios()"
+            style="padding:10px 14px; border:1.5px solid #e4e9ef; border-radius:10px; font-size:0.9rem;">
+            <option value="">Todos los roles</option>
+            <option value="estudiante">Estudiantes</option>
+            <option value="profesor">Profesores</option>
+            <option value="admin">Admins</option>
+          </select>
+        </div>
+      </div>
+      <div id="lista-usuarios"></div>
+    </div>
+
+    <!-- Secciones -->
+    <div id="seccion-secciones" style="display:none">
+      <h2 style="margin-bottom:20px; color:var(--azul-marino);">Todas las Secciones</h2>
+      <div id="lista-secciones-admin"></div>
+    </div>
+
+    <!-- Crear Usuario -->
+    <div id="seccion-crear-usuario" style="display:none">
+      <h2 style="margin-bottom:20px; color:var(--azul-marino);">Crear Usuario Manualmente</h2>
+      <div class="tarjeta" style="max-width:500px;">
+        <div class="campo">
+          <label>Nombre completo</label>
+          <input type="text" id="cu-nombre" placeholder="Nombre completo"/>
+        </div>
+        <div class="campo">
+          <label>Correo electrónico</label>
+          <input type="email" id="cu-email" placeholder="correo@ejemplo.com"/>
+        </div>
+        <div class="campo">
+          <label>Contraseña temporal</label>
+          <input type="password" id="cu-password" placeholder="Mínimo 6 caracteres"/>
+        </div>
+        <div class="campo">
+          <label>Número de cuenta (opcional)</label>
+          <input type="text" id="cu-cuenta" placeholder="Ej: 20231234"/>
+        </div>
+        <div class="campo">
+          <label>Rol</label>
+          <select id="cu-rol">
+            <option value="estudiante">Estudiante</option>
+            <option value="profesor">Profesor</option>
+            <option value="admin">Administrador</option>
+          </select>
+        </div>
+        <div class="campo" id="cu-campo-grado">
+          <label>Grado (solo estudiantes)</label>
+          <select id="cu-grado">
+            <option value="">Selecciona el grado</option>
+            <option value="10° 1">10° 1</option>
+            <option value="10° 2">10° 2</option>
+            <option value="10° 3">10° 3</option>
+            <option value="Bachillerato en Informática">Bachillerato en Informática</option>
+            <option value="Bachillerato en Contaduría y Finanzas">Bachillerato en Contaduría y Finanzas</option>
+            <option value="Bachillerato en Ciencias y Humanidades">Bachillerato en Ciencias y Humanidades</option>
+            <option value="Bachillerato en Salud y Nutrición Comunitaria">Bachillerato en Salud y Nutrición Comunitaria</option>
+          </select>
+        </div>
+        <button class="btn btn-verde" onclick="crearUsuario()">+ Crear Usuario</button>
+        <p id="msg-crear-usuario" style="margin-top:10px; font-size:0.85rem;"></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer-institucional">
+  Formando futuro y conocimiento — Portal Académico Nimia Baquedano
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
