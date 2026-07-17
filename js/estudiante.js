@@ -3,7 +3,10 @@ let tareaSeleccionada = null;
 let mesCalendario = new Date();
 
 function normalizarTexto(texto) {
-  return (texto || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  return (texto || '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // quita tildes
+    .replace(/[^a-z0-9]/g, ''); // deja solo letras y números
 }
 
 async function init() {
